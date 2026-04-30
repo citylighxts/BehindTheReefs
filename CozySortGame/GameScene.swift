@@ -28,6 +28,7 @@ final class GameScene: SKScene {
 
     private let hapticLight = UIImpactFeedbackGenerator(style: .light)
     private let hapticSoft  = UIImpactFeedbackGenerator(style: .soft)
+    private let hapticSuccess = UINotificationFeedbackGenerator()
 
     override func didMove(to view: SKView) {
         backgroundColor = UIColor(red: 0.97, green: 0.95, blue: 0.91, alpha: 1)
@@ -36,6 +37,7 @@ final class GameScene: SKScene {
         spawnScene()
         hapticLight.prepare()
         hapticSoft.prepare()
+        hapticSuccess.prepare()
     }
 
     private func buildBooks() {
@@ -212,6 +214,8 @@ final class GameScene: SKScene {
                 SKAction.scale(to: 1.0,  duration: 0.18)
             ]))
         }
+
+        hapticSuccess.notificationOccurred(.success)
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) { [weak self] in
             self?.viewModel?.finishGame(correct: true)
