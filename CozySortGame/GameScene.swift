@@ -38,6 +38,9 @@ final class GameScene: SKScene {
         hapticLight.prepare()
         hapticSoft.prepare()
         hapticSuccess.prepare()
+        let music = SKAudioNode(fileNamed: "PixelAdventures")
+        music.name = "bgm"
+        addChild(music)
     }
 
     private func buildBooks() {
@@ -207,6 +210,9 @@ final class GameScene: SKScene {
               slotOccupant[0] == "book1",
               slotOccupant[1] == "book2",
               slotOccupant[2] == "book3" else { return }
+        
+        let sound = SKAction.playSoundFileNamed("bonus.wav", waitForCompletion: false)
+            run(sound)
 
         for book in books {
             childNode(withName: book.name)?.run(SKAction.sequence([
@@ -223,7 +229,11 @@ final class GameScene: SKScene {
     }
 
     func resetPuzzle() {
-        removeAllChildren()
+        for node in children {
+            if node.name != "bgm" {
+                node.removeFromParent()
+            }
+        }
         slotOccupant.removeAll()
         bookSlot.removeAll()
         shadowNodes.removeAll()
